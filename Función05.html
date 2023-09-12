@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa de Cambio</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Casa de Cambio</h1>
+
+    <p style="text-align: center;">Seleccionar la moneda a enviar:</p>
+
+    <div style="text-align: center;">
+        <input type="radio" id="dolar" name="monedaOrigen" value="dolar">
+        <label for="dolar">Dólar</label>
+        <input type="radio" id="soles" name="monedaOrigen" value="soles">
+        <label for="soles">Soles</label>
+        <input type="radio" id="euros" name="monedaOrigen" value="euros">
+        <label for="euros">Euros</label>
+    </div>
+
+    <p style="text-align: center;">Seleccionar la moneda a recibir:</p>
+
+    <div style="text-align: center;">
+        <input type="radio" id="dolarRecibir" name="monedaDestino" value="dolar">
+        <label for="dolarRecibir">Dólar</label>
+        <input type="radio" id="solesRecibir" name="monedaDestino" value="soles">
+        <label for="solesRecibir">Soles</label>
+        <input type="radio" id="eurosRecibir" name="monedaDestino" value="euros">
+        <label for="eurosRecibir">Euros</label>
+    </div>
+
+    <p style="text-align: center;">Ingrese el monto:</p>
+
+    <div style="text-align: center;">
+        <input type="number" id="monto" step="0.01" min="0" required>
+    </div>
+
+    <div style="text-align: center;">
+        <button type="button" onclick="cotizarCambio()">Cotizar</button>
+    </div>
+
+    <script>
+        function cotizarCambio() {
+            const monedaOrigen = document.querySelector('input[name="monedaOrigen"]:checked');
+            const monedaDestino = document.querySelector('input[name="monedaDestino"]:checked');
+            const monto = parseFloat(document.getElementById("monto").value);
+
+            if (!monedaOrigen) {
+                alert("Por favor, seleccione una moneda de origen.");
+                return;
+            }
+
+            if (!monedaDestino) {
+                alert("Por favor, seleccione una moneda de destino.");
+                return;
+            }
+
+            if (monedaOrigen.value === monedaDestino.value) {
+                alert("La moneda de origen y destino deben ser diferentes.");
+                return;
+            }
+
+          
+            const tasasCambio = {
+                dolar: {
+                    euro: 0.85,
+                    soles: 3.8,
+                },
+                soles: {
+                    euro: 0.22,
+                    dolar: 0.26,
+                },
+                euros: {
+                    dolar: 1.18,
+                    soles: 4.5,
+                },
+            };
+
+            const tasaCambio = tasasCambio[monedaOrigen.value][monedaDestino.value];
+            const totalRecibir = monto * tasaCambio;
+
+            alert(`Total a recibir: ${totalRecibir.toFixed(2)} ${monedaDestino.value}`);
+        }
+    </script>
+</body>
+</html>
+
+ 
